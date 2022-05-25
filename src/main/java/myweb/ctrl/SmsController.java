@@ -23,8 +23,11 @@ public class SmsController {
 
 	private RestTemplateBuilder rest;
 
-	public SmsController(RestTemplateBuilder rest, Environment env) {
+	private HelloWorldController hw;
+
+	public SmsController(RestTemplateBuilder rest, Environment env, HelloWorldController hw) {
 		this.rest = rest;
+		this.hw = hw;
 		modelHost = env.getProperty("MODEL_HOST");
 	}
 
@@ -37,8 +40,21 @@ public class SmsController {
 	@PostMapping("/")
 	@ResponseBody
 	public Sms predict(@RequestBody Sms sms) {
+		hw.addPrediction();
+
 		sms.result = getPrediction(sms);
+
+		if (isCorrect(sms.guess, sms.result)) {
+			hw.addCorrect();
+		}
+
 		return sms;
+	}
+
+	private static boolean isCorrect(String a, String b) {
+		a = a.toLowerCase().trim();
+		b = b.toLowerCase().trim();
+		return a.equals(b);
 	}
 
 	private String getPrediction(Sms sms) {
