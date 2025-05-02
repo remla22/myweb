@@ -35,7 +35,7 @@ public class HelloWorldController {
 
 		sb.append("Model host: ").append(modelHost).append("<br/>");
 		sb.append("Hostname: ").append(RemlaUtil.getHostName()).append("<br/>");
-		sb.append("Version: ").append(RemlaUtil.getUtilVersion()).append("<br/>");
+		sb.append("Lib Version: ").append(RemlaUtil.getUtilVersion()).append("<br/>");
 
 		return sb.toString();
 	}
